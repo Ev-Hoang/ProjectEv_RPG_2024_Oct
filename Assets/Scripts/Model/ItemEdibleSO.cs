@@ -24,17 +24,6 @@ namespace InventorySystem.Model.Item
         }
     }
 
-    public interface IDestroyableItem
-    {
-
-    }
-
-    public interface IItemAction
-    {
-        public string ActionName { get; }
-        bool PerformAction(GameObject character, List<ItemParameter> itemState);
-    }
-
     [Serializable] 
     public class ModifierData
     {
