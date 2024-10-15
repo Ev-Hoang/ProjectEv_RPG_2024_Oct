@@ -22,6 +22,7 @@ namespace InventorySystem.Model.Item
         [field: SerializeField]
         public Sprite ItemImage { get; set; }
 
+        [field: SerializeField]
         public List<ItemParameter> ParametersList { get; set; }
     }
 

@@ -56,7 +56,7 @@ namespace InventorySystem.Model.Inventory
         private int AddItemToFirstFreeSlot(ItemSO item, int quantity, List<ItemParameter> itemState = null)
         {
             InventoryItem newItem = new InventoryItem { item  = item, quantity = quantity, 
-                itemState = new List<ItemParameter>(itemState == null? item.ParametersList : itemState) };
+                itemState = new List<ItemParameter>(itemState ?? item.ParametersList) };
 
             for (int i = 0; i< inventoryItems.Count; i++)
             {
