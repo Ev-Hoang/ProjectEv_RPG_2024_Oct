@@ -12,6 +12,8 @@ public class MouseFollower : MonoBehaviour
     private RectTransform UI_Offset;
     [SerializeField]
     private UI_Item UI_Item;
+    [SerializeField]
+    private Tooltip itemTooltip;
 
     public UI_Item mouseItem;
 
@@ -52,5 +54,11 @@ public class MouseFollower : MonoBehaviour
     public void Toggle(bool value)
     {
         gameObject.SetActive(value);
+    }
+
+    public void ToggleItemTooltip(bool value)
+    {
+        if(value) itemTooltip.showToolTip();
+        else itemTooltip.hideTooltip();
     }
 }

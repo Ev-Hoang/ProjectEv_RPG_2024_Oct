@@ -22,6 +22,8 @@ namespace InventorySystem.UI.Inventory
         [SerializeField]
         List<UI_Item> _ItemsList = new List<UI_Item>();
 
+        public bool isMouseHoldingItem;
+
         public event Action<int> OnItemSelected, OnItemActionRequested;
         public event Action<int, int> OnItemSwap;
 
@@ -33,6 +35,7 @@ namespace InventorySystem.UI.Inventory
         public void Initialize()
         {          
             mouseFollower.Initialize();
+            isMouseHoldingItem = false;
             //Item in hand
             for (int i = 0; i < 8; i++)
             {
@@ -42,7 +45,7 @@ namespace InventorySystem.UI.Inventory
                 _ItemsList.Add(item);
 
                 item.OnItemHoverEnter += HandleHoverEnter;
-                item.OnItemHoverExit += HandleExit;
+                item.OnItemHoverExit += HandleHoverExit;
                 item.OnItemLeftClick += HandleSelection;
             }
 
@@ -55,7 +58,7 @@ namespace InventorySystem.UI.Inventory
                 _ItemsList.Add(item);
 
                 item.OnItemHoverEnter += HandleHoverEnter;
-                item.OnItemHoverExit += HandleExit;
+                item.OnItemHoverExit += HandleHoverExit;
                 item.OnItemLeftClick += HandleSelection;
             }
 
@@ -70,35 +73,43 @@ namespace InventorySystem.UI.Inventory
             } 
         }
 
-        private void HandleSwap(UI_Item item)
-        {
-        }
+        //private void HandleSwap(UI_Item item)
+        //{
+        //}
 
         private void HandleSelection(UI_Item item)
         {
+            if (!isMouseHoldingItem) mouseFollower.ToggleItemTooltip(false);
+            else mouseFollower.ToggleItemTooltip(true);
             int index = _ItemsList.IndexOf(item);
             if (index == -1) return;
  
             OnItemSelected?.Invoke(index);
         }
 
-        private void HandleExit(UI_Item item)
+        private void HandleHoverExit(UI_Item item)
         {
+            if (isMouseHoldingItem) return;
+            mouseFollower.ToggleItemTooltip(false);
         }
 
         private void HandleHoverEnter(UI_Item item)
         {
+            if (isMouseHoldingItem) return;
+            mouseFollower.ToggleItemTooltip(true);
         }
 
         public void Show()
         {
             gameObject.SetActive(true);
+            mouseFollower.gameObject.SetActive(true);
 
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
+            mouseFollower.gameObject.SetActive(false);
         }
 
         public void ResetAllItems()
@@ -109,18 +120,19 @@ namespace InventorySystem.UI.Inventory
             }
         }
 
-        public void CreateSelectedItem(Sprite itemImage, int quantity)
-        {
-            mouseFollower.Toggle(true);
-            mouseFollower.SetData(itemImage, quantity);
-        }
+        //public void CreateSelectedItem(Sprite itemImage, int quantity)
+        //{
+        //    if(!mouseFollower.isHoldingItem()) mouseFollower.ToggleItemTooltip(false);
+        //    mouseFollower.Toggle(true);
+        //    mouseFollower.SetData(itemImage, quantity);
+        //}
 
         void OnDestroy()
         {
             foreach (UI_Item item in _ItemsList)
             {
                 item.OnItemHoverEnter -= HandleHoverEnter;
-                item.OnItemHoverExit -= HandleExit;
+                item.OnItemHoverExit -= HandleHoverExit;
                 item.OnItemLeftClick -= HandleSelection;
             }
         }

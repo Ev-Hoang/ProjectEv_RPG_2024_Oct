@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace InventorySystem.UI.Item
 {
-    public class UI_Item : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IDropHandler, IDragHandler
+    public class UI_Item : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IPointerEnterHandler, IPointerExitHandler
     {
         [SerializeField]
         private Image itemImage;
@@ -94,12 +94,18 @@ namespace InventorySystem.UI.Item
             }
         }
 
-        public void OnDrop(PointerEventData eventData)
+        public void OnPointerEnter(PointerEventData eventData)
         {
+            if (isEmpty) return;
+            OnItemHoverEnter?.Invoke(this);
+            Debug.Log("HoverEnter");
         }
 
-        public void OnDrag(PointerEventData eventData)
+        public void OnPointerExit(PointerEventData eventData)
         {
+            if (isEmpty) return;
+            OnItemHoverExit?.Invoke(this);
+            Debug.Log("HoverExit");
         }
     }
 }

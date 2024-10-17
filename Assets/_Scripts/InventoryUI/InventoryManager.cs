@@ -53,17 +53,21 @@ namespace InventorySystem.Controller
         private void UpdateInventoryUI(Dictionary<int, InventoryItem> inventoryState)
         {
             inventoryUI.ResetAllItems();
+
+            inventoryUI.isMouseHoldingItem = false;
             foreach (var item in inventoryState)
             {                
                 inventoryUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
+                if (item.Key == 32) inventoryUI.isMouseHoldingItem = true;
             }
+
         }
 
         private void PreapareUI()
         {
             inventoryUI.Initialize();
             inventoryUI.OnItemActionRequested += HandleItemActionRequest;
-            inventoryUI.OnItemSwap += HandleSwapItem;
+            //inventoryUI.OnItemSwap += HandleSwapItem;
             inventoryUI.OnItemSelected += HandleItemSelection;
         }
 
@@ -74,10 +78,10 @@ namespace InventorySystem.Controller
             inventoryData.CreateMouseSelectItem(itemIndex);
         }
 
-        private void HandleSwapItem(int itemIndex1, int itemIndex2)
-        {
-            inventoryData.SwapItems(itemIndex1, itemIndex2);
-        }
+        //private void HandleSwapItem(int itemIndex1, int itemIndex2)
+        //{
+        //    inventoryData.SwapItems(itemIndex1, itemIndex2);
+        //}
 
         private void HandleItemActionRequest(int itemIndex)
         {
@@ -107,7 +111,7 @@ namespace InventorySystem.Controller
         {
             inventoryData.OnInventoryUpdated -= UpdateInventoryUI;
             inventoryUI.OnItemActionRequested -= HandleItemActionRequest;
-            inventoryUI.OnItemSwap -= HandleSwapItem;
+            //inventoryUI.OnItemSwap -= HandleSwapItem;
             inventoryUI.OnItemSelected -= HandleItemSelection;
         }
     }
