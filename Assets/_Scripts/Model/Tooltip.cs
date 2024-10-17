@@ -7,22 +7,39 @@ using UnityEngine.UI;
 
 public class Tooltip : MonoBehaviour
 {
+    public RectTransform contentRectTransform;
+
     [SerializeField] private Image tooltipBackground;
     [SerializeField] private TMP_Text itemName;
     [SerializeField] private TMP_Text itemType;
     [SerializeField] private TMP_Text itemDescription;
     void Awake()
     {
+        ResetTooltip();
         hideTooltip();
+    }
+
+    private void ResetTooltip()
+    {
+        itemName.text = string.Empty;
+        itemType.text = string.Empty;
+        itemDescription.text = string.Empty;
+    }
+
+    public void setTooltip(string itemName, string itemType, string itemDescription)
+    {
+        this.itemName.text = itemName;
+        this.itemType.text = itemType;
+        this.itemDescription.text = itemDescription;
     }
 
     public void hideTooltip()
     {
-        tooltipBackground.gameObject.SetActive(false);
+        gameObject.SetActive(false);
     }
 
     public void showToolTip()
     {
-        tooltipBackground.gameObject.SetActive(true);
+        gameObject.SetActive(true);
     }
 }

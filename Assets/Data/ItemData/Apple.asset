@@ -15,8 +15,10 @@ MonoBehaviour:
   <isStackable>k__BackingField: 1
   <maxStackSize>k__BackingField: 99
   <Name>k__BackingField: Apple
-  <Description>k__BackingField: RestoreHealth
+  <Description>k__BackingField: The greatest apple that has ever lived, i mean existed,
+    whatever man
   <ItemImage>k__BackingField: {fileID: 0}
+  <ParametersList>k__BackingField: []
   modifierData:
   - statModifier: {fileID: 11400000, guid: 712b6f8134b6bd844b92ad2b22da13ee, type: 2}
     value: 1

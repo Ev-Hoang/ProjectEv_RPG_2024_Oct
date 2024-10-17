@@ -12,9 +12,8 @@ public class MouseFollower : MonoBehaviour
     private RectTransform UI_Offset;
     [SerializeField]
     private UI_Item UI_Item;
-    [SerializeField]
-    private Tooltip itemTooltip;
-
+    
+    public Tooltip itemTooltip;
     public UI_Item mouseItem;
 
 
@@ -23,9 +22,11 @@ public class MouseFollower : MonoBehaviour
     {
         UI_Item item = Instantiate(UI_Item, UI_Offset.position, Quaternion.identity);
         mouseItem = item;
-        item.transform.SetParent(UI_Offset);
+        item.transform.SetParent(UI_Offset.transform);
         item.transform.localScale = Vector3.one;
+
         item.ToggleBorder(false);
+        Toggle(false);
     }
     public void Awake()
     {
@@ -45,10 +46,28 @@ public class MouseFollower : MonoBehaviour
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             (RectTransform)canvas.transform,
             Input.mousePosition,
-            null,  // Set to null for Screen Space - Overlay
+            null,
             out canvasPosition
         );
         transform.position = canvas.transform.TransformPoint(canvasPosition);
+
+        //Make tooltip Always stays on screen.
+        if ( itemTooltip.isActiveAndEnabled )
+        {
+            float tooltipPosX = itemTooltip.transform.GetComponent<RectTransform>().position.x + itemTooltip.contentRectTransform.rect.width;
+            float tooltipPosY = itemTooltip.transform.GetComponent<RectTransform>().position.y - itemTooltip.contentRectTransform.rect.height;
+
+            float offsetX = 0f, offsetY = 0f;
+            if (tooltipPosX > canvas.GetComponent<RectTransform>().rect.width)
+            {
+                offsetX = canvas.GetComponent<RectTransform>().rect.width - tooltipPosX;
+            }
+            if (tooltipPosY < 0f)
+            {
+                offsetY = 0f - tooltipPosY;
+            }
+            transform.position += new Vector3(offsetX, offsetY, 0);
+        }
     }
 
     public void Toggle(bool value)

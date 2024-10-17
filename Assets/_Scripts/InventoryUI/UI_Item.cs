@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 namespace InventorySystem.UI.Item
 {
-    public class UI_Item : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IPointerEnterHandler, IPointerExitHandler
+    public class UI_Item : MonoBehaviour, IPointerClickHandler, IBeginDragHandler, IPointerEnterHandler, IPointerExitHandler, IDragHandler, IEndDragHandler
     {
         [SerializeField]
         private Image itemImage;
@@ -20,11 +20,10 @@ namespace InventorySystem.UI.Item
         [SerializeField]
         private TMP_Text quantityTxt;
 
-
-
         public event Action<UI_Item> OnItemHoverEnter, OnItemHoverExit, OnItemLeftClick, OnItemRightClick;
 
         private bool isEmpty = true;
+        private bool isDragging = false;
 
         public void Awake()
         {
@@ -72,6 +71,7 @@ namespace InventorySystem.UI.Item
 
         public void OnPointerClick(PointerEventData pointerData)
         {
+            if (isDragging) return;
             if (pointerData.button == PointerEventData.InputButton.Right)
             {
                 OnItemRightClick?.Invoke(this);
@@ -84,6 +84,7 @@ namespace InventorySystem.UI.Item
 
         public void OnBeginDrag(PointerEventData pointerData)
         {
+            isDragging = true;
             if (pointerData.button == PointerEventData.InputButton.Right)
             {
                 OnItemRightClick?.Invoke(this);
@@ -98,14 +99,22 @@ namespace InventorySystem.UI.Item
         {
             if (isEmpty) return;
             OnItemHoverEnter?.Invoke(this);
-            Debug.Log("HoverEnter");
         }
 
         public void OnPointerExit(PointerEventData eventData)
         {
             if (isEmpty) return;
             OnItemHoverExit?.Invoke(this);
-            Debug.Log("HoverExit");
+        }
+
+        public void OnDrag(PointerEventData eventData)
+        {
+
+        }
+
+        public void OnEndDrag(PointerEventData pointerData)
+        {
+            isDragging = false;
         }
     }
 }

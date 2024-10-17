@@ -24,13 +24,12 @@ namespace InventorySystem.UI.Inventory
 
         public bool isMouseHoldingItem;
 
-        public event Action<int> OnItemSelected, OnItemActionRequested;
+        public event Action<int> OnItemSelected, OnItemActionRequested, OnItemHovered;
         public event Action<int, int> OnItemSwap;
 
         private void Awake()
         {
             Hide();
-            mouseFollower.Toggle(true);
         }
         public void Initialize()
         {          
@@ -73,6 +72,12 @@ namespace InventorySystem.UI.Inventory
             } 
         }
 
+        public void SetTooltip(string itemName, string itemType, string itemDescription)
+        {
+            mouseFollower.ToggleItemTooltip(true);
+            mouseFollower.itemTooltip.setTooltip(itemName, itemType, itemDescription);
+        }
+
         //private void HandleSwap(UI_Item item)
         //{
         //}
@@ -96,20 +101,22 @@ namespace InventorySystem.UI.Inventory
         private void HandleHoverEnter(UI_Item item)
         {
             if (isMouseHoldingItem) return;
-            mouseFollower.ToggleItemTooltip(true);
+            int index = _ItemsList.IndexOf(item);
+            if (index == -1) return;
+            OnItemHovered?.Invoke(index);
         }
 
         public void Show()
         {
             gameObject.SetActive(true);
-            mouseFollower.gameObject.SetActive(true);
+            mouseFollower.Toggle(true);
 
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
-            mouseFollower.gameObject.SetActive(false);
+            mouseFollower.Toggle(false);
         }
 
         public void ResetAllItems()

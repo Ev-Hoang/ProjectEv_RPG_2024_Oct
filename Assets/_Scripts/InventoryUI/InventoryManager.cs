@@ -50,6 +50,12 @@ namespace InventorySystem.Controller
             return sb.ToString();
         }
 
+        private void SetUITooltip(int itemIndex)
+        {
+            InventoryItem inventoryItem = inventoryData.GetItemAt(itemIndex);
+            inventoryUI.SetTooltip(inventoryItem.item.Name, "fruit", PrepareDescription(inventoryItem));
+        }
+
         private void UpdateInventoryUI(Dictionary<int, InventoryItem> inventoryState)
         {
             inventoryUI.ResetAllItems();
@@ -69,6 +75,7 @@ namespace InventorySystem.Controller
             inventoryUI.OnItemActionRequested += HandleItemActionRequest;
             //inventoryUI.OnItemSwap += HandleSwapItem;
             inventoryUI.OnItemSelected += HandleItemSelection;
+            inventoryUI.OnItemHovered += SetUITooltip;
         }
 
         private void HandleItemSelection(int itemIndex)
@@ -110,6 +117,7 @@ namespace InventorySystem.Controller
         void OnDestroy()
         {
             inventoryData.OnInventoryUpdated -= UpdateInventoryUI;
+            inventoryUI.OnItemHovered -= SetUITooltip;
             inventoryUI.OnItemActionRequested -= HandleItemActionRequest;
             //inventoryUI.OnItemSwap -= HandleSwapItem;
             inventoryUI.OnItemSelected -= HandleItemSelection;
