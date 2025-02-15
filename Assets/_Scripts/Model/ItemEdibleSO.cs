@@ -1,17 +1,19 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization;
 using UnityEngine;
 
 namespace InventorySystem.Model.Item
 {
 
     [CreateAssetMenu]
-
     public class ItemEdibleSO : ItemSO, IDestroyableItem, IItemAction
     {
-        [SerializeField] 
-        private List<ModifierData> modifierData = new List<ModifierData>();
+        [Header("Edible")]
+        [field: SerializeField] public itemType type;
+        [field: SerializeField] private List<ModifierData> modifierData = new List<ModifierData>();
+
         public string ActionName => "Consume";
 
         public bool PerformAction(GameObject character, List<ItemParameter> itemState = null)
@@ -30,5 +32,12 @@ namespace InventorySystem.Model.Item
         public CharacterStatModifierSO statModifier;
         public float value;
     }
+}
+
+public enum itemType
+{
+    Food,
+    Fruit,
+    Potion,
 }
 

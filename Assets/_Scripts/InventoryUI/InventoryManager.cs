@@ -17,6 +17,9 @@ namespace InventorySystem.Controller
         [SerializeField]
         private InventorySO inventoryData;
 
+        [SerializeField]
+        private ScreenItem_UI screenitemUI;
+
         public List<InventoryItem> initialItems = new List<InventoryItem>();
 
         private void Start()
@@ -29,6 +32,7 @@ namespace InventorySystem.Controller
         {
             inventoryData.Initialize();
             inventoryData.OnInventoryUpdated += UpdateInventoryUI;
+            inventoryData.OnInventoryUpdated += UpdateScreenItemUI;
             foreach (InventoryItem item in initialItems)
             {
                 if (item.IsEmpty) continue;
@@ -62,20 +66,30 @@ namespace InventorySystem.Controller
 
             inventoryUI.isMouseHoldingItem = false;
             foreach (var item in inventoryState)
-            {                
+            {
                 inventoryUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
                 if (item.Key == 32) inventoryUI.isMouseHoldingItem = true;
             }
 
+        }
+        private void UpdateScreenItemUI(Dictionary<int, InventoryItem> inventoryState)
+        {
+            screenitemUI.ResetAllItems();
+            foreach (var item in inventoryState)
+            {
+                screenitemUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
+                if (item.Key > 8) return;
+            }
         }
 
         private void PreapareUI()
         {
             inventoryUI.Initialize();
             inventoryUI.OnItemActionRequested += HandleItemActionRequest;
-            //inventoryUI.OnItemSwap += HandleSwapItem;
             inventoryUI.OnItemSelected += HandleItemSelection;
             inventoryUI.OnItemHovered += SetUITooltip;
+
+            screenitemUI.Initialize();
         }
 
         private void HandleItemSelection(int itemIndex)
@@ -84,11 +98,6 @@ namespace InventorySystem.Controller
             if (inventoryItem.IsEmpty && inventoryData.GetItemAt(32).IsEmpty) return;
             inventoryData.CreateMouseSelectItem(itemIndex);
         }
-
-        //private void HandleSwapItem(int itemIndex1, int itemIndex2)
-        //{
-        //    inventoryData.SwapItems(itemIndex1, itemIndex2);
-        //}
 
         private void HandleItemActionRequest(int itemIndex)
         {
@@ -106,10 +115,24 @@ namespace InventorySystem.Controller
                     {
                         inventoryUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
                     }
+                    screenitemUI.Toggle(false);
                 }
                 else
                 {
                     inventoryUI.Hide();
+                    //Check if mouse is holding anyitem
+                    if (!inventoryData.GetItemAt(32).IsEmpty)
+                    {
+                        inventoryData.AddItem(inventoryData.GetItemAt(32));
+                        inventoryData.resetMouseData();
+                    }
+                    foreach (var item in inventoryData.GetCurrentInventoryState())
+                    {
+                        //Update ScreenItemUI
+                        screenitemUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
+                        if (item.Key > 8) break;
+                    }
+                    screenitemUI.Toggle(true);
                 }
             }
         }
@@ -117,9 +140,10 @@ namespace InventorySystem.Controller
         void OnDestroy()
         {
             inventoryData.OnInventoryUpdated -= UpdateInventoryUI;
+            inventoryData.OnInventoryUpdated -= UpdateScreenItemUI;
+
             inventoryUI.OnItemHovered -= SetUITooltip;
             inventoryUI.OnItemActionRequested -= HandleItemActionRequest;
-            //inventoryUI.OnItemSwap -= HandleSwapItem;
             inventoryUI.OnItemSelected -= HandleItemSelection;
         }
     }
