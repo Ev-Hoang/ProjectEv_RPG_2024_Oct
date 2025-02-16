@@ -54,13 +54,15 @@ public class MouseFollower : MonoBehaviour
         //Make tooltip Always stays on screen.
         if ( itemTooltip.isActiveAndEnabled )
         {
-            float tooltipPosX = itemTooltip.transform.GetComponent<RectTransform>().position.x + itemTooltip.contentRectTransform.rect.width;
-            float tooltipPosY = itemTooltip.transform.GetComponent<RectTransform>().position.y - itemTooltip.contentRectTransform.rect.height;
+            float tooltipPosX = itemTooltip.transform.GetComponent<RectTransform>().position.x + itemTooltip.contentRectTransform.rect.width * canvas.GetComponent<RectTransform>().localScale.x;
+            float tooltipPosY = itemTooltip.transform.GetComponent<RectTransform>().position.y - itemTooltip.contentRectTransform.rect.height * canvas.GetComponent<RectTransform>().localScale.y;
 
             float offsetX = 0f, offsetY = 0f;
-            if (tooltipPosX > canvas.GetComponent<RectTransform>().rect.width)
+
+            float canvasScreenSizeX = canvas.GetComponent<RectTransform>().rect.width * canvas.GetComponent<RectTransform>().localScale.x;
+            if (tooltipPosX > canvasScreenSizeX)
             {
-                offsetX = canvas.GetComponent<RectTransform>().rect.width - tooltipPosX;
+                offsetX = canvasScreenSizeX - tooltipPosX;
             }
             if (tooltipPosY < 0f)
             {
