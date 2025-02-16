@@ -12,7 +12,8 @@ public class MouseFollower : MonoBehaviour
     private RectTransform UI_Offset;
     [SerializeField]
     private UI_Item UI_Item;
-
+    
+    public Tooltip itemTooltip;
     public UI_Item mouseItem;
 
 
@@ -21,9 +22,11 @@ public class MouseFollower : MonoBehaviour
     {
         UI_Item item = Instantiate(UI_Item, UI_Offset.position, Quaternion.identity);
         mouseItem = item;
-        item.transform.SetParent(UI_Offset);
+        item.transform.SetParent(UI_Offset.transform);
         item.transform.localScale = Vector3.one;
+
         item.ToggleBorder(false);
+        Toggle(false);
     }
     public void Awake()
     {
@@ -43,14 +46,40 @@ public class MouseFollower : MonoBehaviour
         RectTransformUtility.ScreenPointToLocalPointInRectangle(
             (RectTransform)canvas.transform,
             Input.mousePosition,
-            null,  // Set to null for Screen Space - Overlay
+            null,
             out canvasPosition
         );
         transform.position = canvas.transform.TransformPoint(canvasPosition);
+
+        //Make tooltip Always stays on screen.
+        if ( itemTooltip.isActiveAndEnabled )
+        {
+            float tooltipPosX = itemTooltip.transform.GetComponent<RectTransform>().position.x + itemTooltip.contentRectTransform.rect.width * canvas.GetComponent<RectTransform>().localScale.x;
+            float tooltipPosY = itemTooltip.transform.GetComponent<RectTransform>().position.y - itemTooltip.contentRectTransform.rect.height * canvas.GetComponent<RectTransform>().localScale.y;
+
+            float offsetX = 0f, offsetY = 0f;
+
+            float canvasScreenSizeX = canvas.GetComponent<RectTransform>().rect.width * canvas.GetComponent<RectTransform>().localScale.x;
+            if (tooltipPosX > canvasScreenSizeX)
+            {
+                offsetX = canvasScreenSizeX - tooltipPosX;
+            }
+            if (tooltipPosY < 0f)
+            {
+                offsetY = 0f - tooltipPosY;
+            }
+            transform.position += new Vector3(offsetX, offsetY, 0);
+        }
     }
 
     public void Toggle(bool value)
     {
         gameObject.SetActive(value);
+    }
+
+    public void ToggleItemTooltip(bool value)
+    {
+        if(value) itemTooltip.showToolTip();
+        else itemTooltip.hideTooltip();
     }
 }

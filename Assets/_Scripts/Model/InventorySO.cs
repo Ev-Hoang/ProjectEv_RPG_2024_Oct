@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEditor;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 
 namespace InventorySystem.Model.Inventory
@@ -15,16 +16,19 @@ namespace InventorySystem.Model.Inventory
         [SerializeField]
         private List<InventoryItem> inventoryItems;
 
+        private InventoryItem mouseItem;
+
         public event Action<Dictionary<int, InventoryItem>> OnInventoryUpdated;
 
         public void Initialize()
         {
             inventoryItems = new List<InventoryItem>();
             // MouseItem + 32 slots
-            for (int i = 0; i <= 32; i++)
+            for (int i = 0; i < 32; i++)
             {
                 inventoryItems.Add(InventoryItem.GetEmptyItem());
             }
+            mouseItem = InventoryItem.GetEmptyItem();
         }
 
         public int AddItem(ItemSO item, int quantity, List<ItemParameter> itemState = null)
@@ -56,7 +60,7 @@ namespace InventorySystem.Model.Inventory
         private int AddItemToFirstFreeSlot(ItemSO item, int quantity, List<ItemParameter> itemState = null)
         {
             InventoryItem newItem = new InventoryItem { item  = item, quantity = quantity, 
-                itemState = new List<ItemParameter>(itemState == null? item.ParametersList : itemState) };
+                itemState = new List<ItemParameter>(itemState ?? item.ParametersList) };
 
             for (int i = 0; i< inventoryItems.Count; i++)
             {
@@ -113,13 +117,13 @@ namespace InventorySystem.Model.Inventory
                 if (inventoryItems[i].IsEmpty) continue;
                 returnValue[i] = inventoryItems[i];
             }
-
+            if (!mouseItem.IsEmpty) returnValue[32] = mouseItem;
             return returnValue;
         }
 
         public void CreateMouseSelectItem(int itemIndex)
         {
-            SwapItems(itemIndex, 32);
+            SwapItemWithMouse(itemIndex);
         }
 
         public void SwapItems(int itemIndex1, int itemIndex2)
@@ -127,6 +131,15 @@ namespace InventorySystem.Model.Inventory
             InventoryItem temp = inventoryItems[itemIndex1];
             inventoryItems[itemIndex1] = inventoryItems[itemIndex2];
             inventoryItems[itemIndex2] = temp;
+
+            InformAboutChange();
+        }
+        public void SwapItemWithMouse(int itemIndex)
+        {
+            InventoryItem temp = inventoryItems[itemIndex];
+            inventoryItems[itemIndex] = mouseItem;
+            mouseItem = temp;
+
             InformAboutChange();
         }
 
@@ -137,7 +150,13 @@ namespace InventorySystem.Model.Inventory
 
         public InventoryItem GetItemAt(int itemIndex)
         {
+            if (itemIndex == 32) return mouseItem; 
             return inventoryItems[itemIndex];
+        }
+
+        public void resetMouseData()
+        {
+            mouseItem = InventoryItem.GetEmptyItem();
         }
     }
 
