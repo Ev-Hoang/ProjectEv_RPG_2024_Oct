@@ -5,7 +5,7 @@ using UnityEngine;
 public class HotbarManager : MonoBehaviour
 {
     [SerializeField]
-    private UI_Hotbar hotbarItem;
+    private UI_Hotbar hotbarUI;
 
     //Keycode from 1->9 (not pad version obv)
     private KeyCode[] keyCodes = {
@@ -28,13 +28,16 @@ public class HotbarManager : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < keyCodes.Length; i++)
+        if (hotbarUI.isActiveAndEnabled)
         {
-            if (Input.GetKeyDown(keyCodes[i]))
+            for (int i = 0; i < keyCodes.Length; i++)
             {
-                //Implement - UI : Show item selected on hotbar
-                //hotbarItem.SelectItem(i + 1);
-                //Implement - Player: Show player holding item
+                if (Input.GetKeyDown(keyCodes[i]))
+                {
+                    //Implement - UI : Show item selected on hotbar
+                    hotbarUI.SelectItem(i);
+                    //Implement - Player: Show player holding item
+                }
             }
         }
     }

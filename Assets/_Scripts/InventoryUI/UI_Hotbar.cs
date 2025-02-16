@@ -11,6 +11,8 @@ public class UI_Hotbar : MonoBehaviour
     [SerializeField]
     List<UI_Item> _ItemsList = new List<UI_Item>();
 
+    private int currentHighlightSlot = 0;
+
     public void Toggle(bool value)
     {
         gameObject.SetActive(value);
@@ -31,6 +33,17 @@ public class UI_Hotbar : MonoBehaviour
             item.transform.localScale = Vector3.one;
             _ItemsList.Add(item);
         }
+
+        //Highlight slot
+        SelectItem(currentHighlightSlot);
+    }
+
+    //Select item in hotbar, only 1 can be selected, purpose with player system (holding item)
+    public void SelectItem(int index)
+    {
+        _ItemsList[currentHighlightSlot].ToggleBorder(true);
+        _ItemsList[index].ToggleBorder(false);
+        currentHighlightSlot = index;
     }
 
     public void ResetAllItems()
