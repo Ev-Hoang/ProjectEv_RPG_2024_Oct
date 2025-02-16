@@ -106,6 +106,7 @@ namespace InventorySystem.Controller
 
         private void Update()
         {
+            //Open and close inventory
             if (Input.GetKeyDown(KeyCode.E))
             {
                 if (!inventoryUI.isActiveAndEnabled)

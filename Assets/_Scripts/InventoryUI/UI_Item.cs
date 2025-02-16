@@ -52,23 +52,6 @@ namespace InventorySystem.UI.Item
             isEmpty = false;
         }
 
-        //public void OnHoverEnter()
-        //{
-        //    if (isEmpty) return;
-        //    OnItemHoverEnter?.Invoke(this);
-        //}
-
-        //public void OnHoverExit()
-        //{
-        //    OnItemHoverExit?.Invoke(this);
-        //}
-
-        //public void OnRightClick()
-        //{
-        //    if (isEmpty) return;
-        //    OnItemRightClick?.Invoke(this);
-        //}
-
         public void OnPointerClick(PointerEventData pointerData)
         {
             if (isDragging) return;

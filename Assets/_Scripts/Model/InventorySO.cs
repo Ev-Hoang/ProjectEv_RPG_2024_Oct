@@ -157,6 +157,7 @@ namespace InventorySystem.Model.Inventory
         public void resetMouseData()
         {
             mouseItem = InventoryItem.GetEmptyItem();
+            InformAboutChange();
         }
     }
 
