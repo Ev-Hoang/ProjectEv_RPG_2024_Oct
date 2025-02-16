@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ScreenItem_UI : MonoBehaviour
+public class UI_Hotbar : MonoBehaviour
 {
     [SerializeField]
     private UI_Item _UI_Item;

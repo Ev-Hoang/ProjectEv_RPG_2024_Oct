@@ -78,10 +78,6 @@ namespace InventorySystem.UI.Inventory
             mouseFollower.itemTooltip.setTooltip(itemName, itemType, itemDescription);
         }
 
-        //private void HandleSwap(UI_Item item)
-        //{
-        //}
-
         private void HandleSelection(UI_Item item)
         {
             if (!isMouseHoldingItem) mouseFollower.ToggleItemTooltip(false);

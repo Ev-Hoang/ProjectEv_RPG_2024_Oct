@@ -18,7 +18,7 @@ namespace InventorySystem.Controller
         private InventorySO inventoryData;
 
         [SerializeField]
-        private ScreenItem_UI screenitemUI;
+        private UI_Hotbar hotbarUI;
 
         public List<InventoryItem> initialItems = new List<InventoryItem>();
 
@@ -32,7 +32,7 @@ namespace InventorySystem.Controller
         {
             inventoryData.Initialize();
             inventoryData.OnInventoryUpdated += UpdateInventoryUI;
-            inventoryData.OnInventoryUpdated += UpdateScreenItemUI;
+            inventoryData.OnInventoryUpdated += UpdateHotbarUI;
             foreach (InventoryItem item in initialItems)
             {
                 if (item.IsEmpty) continue;
@@ -72,12 +72,12 @@ namespace InventorySystem.Controller
             }
 
         }
-        private void UpdateScreenItemUI(Dictionary<int, InventoryItem> inventoryState)
+        private void UpdateHotbarUI(Dictionary<int, InventoryItem> inventoryState)
         {
-            screenitemUI.ResetAllItems();
+            hotbarUI.ResetAllItems();
             foreach (var item in inventoryState)
             {
-                screenitemUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
+                hotbarUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
                 if (item.Key > 8) return;
             }
         }
@@ -89,7 +89,7 @@ namespace InventorySystem.Controller
             inventoryUI.OnItemSelected += HandleItemSelection;
             inventoryUI.OnItemHovered += SetUITooltip;
 
-            screenitemUI.Initialize();
+            hotbarUI.Initialize();
         }
 
         private void HandleItemSelection(int itemIndex)
@@ -116,7 +116,7 @@ namespace InventorySystem.Controller
                     {
                         inventoryUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
                     }
-                    screenitemUI.Toggle(false);
+                    hotbarUI.Toggle(false);
                 }
                 else
                 {
@@ -129,11 +129,11 @@ namespace InventorySystem.Controller
                     }
                     foreach (var item in inventoryData.GetCurrentInventoryState())
                     {
-                        //Update ScreenItemUI
-                        screenitemUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
+                        //Update hotbarUI
+                        hotbarUI.UpdateData(item.Key, item.Value.item.ItemImage, item.Value.quantity);
                         if (item.Key > 8) break;
                     }
-                    screenitemUI.Toggle(true);
+                    hotbarUI.Toggle(true);
                 }
             }
         }
@@ -141,7 +141,7 @@ namespace InventorySystem.Controller
         void OnDestroy()
         {
             inventoryData.OnInventoryUpdated -= UpdateInventoryUI;
-            inventoryData.OnInventoryUpdated -= UpdateScreenItemUI;
+            inventoryData.OnInventoryUpdated -= UpdateHotbarUI;
 
             inventoryUI.OnItemHovered -= SetUITooltip;
             inventoryUI.OnItemActionRequested -= HandleItemActionRequest;
