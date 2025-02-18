@@ -38,8 +38,8 @@ public class UI_Hotbar : MonoBehaviour
     //Select item in hotbar, only 1 can be selected, purpose with player system (holding item)
     public void SelectSlot(int index)
     {
-        _ItemsList[currentHighlightSlot].ToggleBorder(true);
-        _ItemsList[index].ToggleBorder(false);
+        _ItemsList[currentHighlightSlot].ToggleHighlight(false);
+        _ItemsList[index].ToggleHighlight(true);
         currentHighlightSlot = index;
     }
 

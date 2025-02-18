@@ -18,6 +18,8 @@ namespace InventorySystem.UI.Item
         [SerializeField]
         private Image borderImage;
         [SerializeField]
+        private Image highlightImage;
+        [SerializeField]
         private TMP_Text quantityTxt;
 
         public event Action<UI_Item> OnItemHoverEnter, OnItemHoverExit, OnItemLeftClick, OnItemRightClick;
@@ -30,6 +32,10 @@ namespace InventorySystem.UI.Item
             ResetData();
         }
 
+        public void ToggleHighlight(bool value)
+        {
+            highlightImage.enabled = value;
+        }
         public void ToggleBorder(bool value)
         {   
             borderImage.enabled = value;
@@ -38,6 +44,7 @@ namespace InventorySystem.UI.Item
 
         public void ResetData()
         {
+            highlightImage.enabled = false;
             itemImage.enabled = false;
             quantityTxt.enabled = false;
             isEmpty = true;

@@ -199,6 +199,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2788779266219954305, guid: 3ce6ebab8129afa4a8b7be867db27c10, type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2788779266219954305, guid: 3ce6ebab8129afa4a8b7be867db27c10, type: 3}
       propertyPath: m_AnchoredPosition.x
       value: 0
       objectReference: {fileID: 0}
@@ -876,6 +880,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   hotbarUI: {fileID: 1254943562}
+  inventoryData: {fileID: 11400000, guid: d78c5ea778db4b84ebd81d4348d03001, type: 2}
+  playerHand: {fileID: 1143735157}
 --- !u!1 &1254943560
 GameObject:
   m_ObjectHideFlags: 0
