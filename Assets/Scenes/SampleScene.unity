@@ -664,10 +664,12 @@ GameObject:
   m_Component:
   - component: {fileID: 1143735153}
   - component: {fileID: 1143735152}
-  - component: {fileID: 1143735151}
-  - component: {fileID: 1143735154}
   - component: {fileID: 1143735155}
   - component: {fileID: 1143735156}
+  - component: {fileID: 1143735151}
+  - component: {fileID: 1143735154}
+  - component: {fileID: 1143735158}
+  - component: {fileID: 1143735157}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -689,7 +691,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inventoryUI: {fileID: 425811428}
   inventoryData: {fileID: 11400000, guid: d78c5ea778db4b84ebd81d4348d03001, type: 2}
-  screenitemUI: {fileID: 1254943562}
+  hotbarUI: {fileID: 1254943562}
   initialItems:
   - quantity: 1
     item: {fileID: 11400000, guid: 58b9ba4b86ce52248b9552bfcd9d77f9, type: 2}
@@ -849,6 +851,31 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 1, y: 1}
   m_EdgeRadius: 0
+--- !u!114 &1143735157
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143735150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b57ec1ef6aef6f241bb82b4122796144, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1143735158
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1143735150}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 29042aadd09a61641a202461f518b823, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hotbarUI: {fileID: 1254943562}
 --- !u!1 &1254943560
 GameObject:
   m_ObjectHideFlags: 0
@@ -863,7 +890,7 @@ GameObject:
   - component: {fileID: 1254943563}
   - component: {fileID: 1254943562}
   m_Layer: 5
-  m_Name: HandItemOnScreen
+  m_Name: Hotbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

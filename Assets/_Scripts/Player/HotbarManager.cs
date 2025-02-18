@@ -1,3 +1,4 @@
+using InventorySystem.Model.Inventory;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,6 +7,12 @@ public class HotbarManager : MonoBehaviour
 {
     [SerializeField]
     private UI_Hotbar hotbarUI;
+
+    [SerializeField]
+    private InventorySO inventoryData;
+
+    [SerializeField]
+    private HandHeldSystem playerHand;
 
     //Keycode from 1->9 (not pad version obv)
     private KeyCode[] keyCodes = {
@@ -22,7 +29,16 @@ public class HotbarManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
-        
+        SelectItem(0);
+    }
+
+    void SelectItem(int index)
+    {
+        //Implement - UI : Show item selected on hotbar
+        hotbarUI.SelectSlot(index);
+        //Implement - Player: Show player holding item
+        InventoryItem hotbarItem = inventoryData.GetItemAt(index);
+        playerHand.HoldingItem(hotbarItem.item);
     }
 
     // Update is called once per frame
@@ -34,9 +50,7 @@ public class HotbarManager : MonoBehaviour
             {
                 if (Input.GetKeyDown(keyCodes[i]))
                 {
-                    //Implement - UI : Show item selected on hotbar
-                    hotbarUI.SelectItem(i);
-                    //Implement - Player: Show player holding item
+                    SelectItem(i);
                 }
             }
         }

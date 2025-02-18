@@ -1,18 +1,13 @@
-using InventorySystem.Model.Item;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HandHeldSystem : MonoBehaviour
+public class EquipmentSO : MonoBehaviour
 {
-    
+    // Start is called before the first frame update
     void Start()
     {
-    }
-
-    public void HoldingItem(ItemSO item)
-    {
-
+        
     }
 
     // Update is called once per frame

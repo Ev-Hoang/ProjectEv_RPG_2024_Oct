@@ -33,13 +33,10 @@ public class UI_Hotbar : MonoBehaviour
             item.transform.localScale = Vector3.one;
             _ItemsList.Add(item);
         }
-
-        //Highlight slot
-        SelectItem(currentHighlightSlot);
     }
 
     //Select item in hotbar, only 1 can be selected, purpose with player system (holding item)
-    public void SelectItem(int index)
+    public void SelectSlot(int index)
     {
         _ItemsList[currentHighlightSlot].ToggleBorder(true);
         _ItemsList[index].ToggleBorder(false);
